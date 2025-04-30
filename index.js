@@ -27,7 +27,6 @@ let JERARQUIA = [
 ];
 
 
-
 // ---- Métodos a resolver ----
 const API_CARTAS = 'http://localhost:3000/cartas';
 const API_PARTIDAS = 'http://localhost:3000/partidas';
@@ -39,6 +38,7 @@ globalThis.rondas = [];
 globalThis.turno = 0;
 globalThis.puntajeRondas = [0,0];
 globalThis.historialPartidas = [];
+globalThis.sePuedeEnvido = true;
 
 // ---- Métodos a RESOLVER por el alumno (fetch) ----
 
@@ -279,6 +279,12 @@ function ganadorPartida() {
  * @param {Array} arr - array a mezclar
  * @returns {Array} - array mezclado
  */
+
+/**
+ * Mezcla el array pasado como parámetro (Fisher-Yates)
+ * @param {Array} arr - array a mezclar
+ * @returns {Array} - array mezclado
+ */
 function mezclar(arr) {
     /**
      * TODO:
@@ -304,6 +310,7 @@ function nuevaPartida() {
         rondas = [];
         puntajeRondas = [0,0];
         turno = 0;
+        sePuedeEnvido = true;
         repartirManos();
         mostrarEstado("¡Nueva partida iniciada! Juega el Jugador 1.");
     });
@@ -356,6 +363,100 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 
+
+
+/**
+ * Calcula y compara los puntos de envido de ambos jugadores.
+ * Muestra el resultado  con un alert.
+ *
+ * @returns {number[]} Un array con los puntos de envido: [jugador1, jugador2]
+ */
+ function cantarEnvido() {
+    // TODO 1: Verificar si se puede cantar envido
+    if (!sePuedeEnvido) {
+        alert("No se puede cantar envido en esta partida.");
+        return;
+    }
+
+    // TODO 2: Validar que ambos jugadores tengan 3 cartas
+    if (globalThis.manos[0].length !== 3 || globalThis.manos[1].length !== 3) {
+        alert("Ambos jugadores deben tener 3 cartas para cantar envido.");
+        return;
+    }
+
+    // TODO 3: Calcular los puntos de envido de cada mano
+    const puntosJugador1 = calcularEnvidoDeMano(globalThis.manos[0]);
+    const puntosJugador2 = calcularEnvidoDeMano(globalThis.manos[1]);
+
+    // TODO 4: Bloquear el envido para el resto de la partida
+    sePuedeEnvido = false;
+
+    // TODO 5: Comparar resultados ,asignar puntos y mostrar el resultado con un alert
+    if (puntosJugador1 > puntosJugador2) {
+        puntajeRondas[0] += 2;
+        alert(`Jugador 1 canta envido y gana con ${puntosJugador1} puntos.`);
+    } else if (puntosJugador2 > puntosJugador1) {
+        puntajeRondas[1] += 2;
+        alert(`Jugador 2 canta envido y gana con ${puntosJugador2} puntos.`);
+    } else {
+        alert(`Empate en envido. Ambos tienen ${puntosJugador1} puntos.`);
+    }
+
+    // TODO 6: Verificar si hay un ganador de la partida
+    const ganador = ganadorPartida();
+    if (ganador !== null) {
+        mostrarEstado("¡Fin de partida por envido!");
+        guardarPartidaFetch(ganador).then(getHistorialPartidasFetch);
+        nuevaPartida();
+    }
+
+    // TODO 7: Retornar los puntos de envido
+    return [puntosJugador1, puntosJugador2];
+}
+/**
+ * Calcula los puntos de envido de una mano.
+ * Las cartas del mismo palo suman sus valores + 20.
+ * Las figuras (10, 11, 12) valen 0 puntos para el envido.
+ *
+ * @param {Object[]} mano - Arreglo de cartas. Cada carta tiene `valor` y `palo`.
+ * @param {number} mano[].valor - Número de la carta (1 al 12).
+ * @param {string} mano[].palo - Palo de la carta ("Espadas", "Bastos", "Oros", "Copas").
+ * @returns {number} Puntos de envido calculados para esa mano.
+ */
+function calcularEnvidoDeMano(mano) {
+    // TODO: crear un objeto que contenga los valores de las cartas por palo
+    const cartasPorPalo = {
+        'Espadas': [],
+        'Bastos': [],
+        'Oros': [],
+        'Copas': []
+    };
+
+    // TODO: Recorre la mano y agrupa las cartas por palo
+    for (const carta of mano) {
+        const numero = carta.valor;
+        const palo = carta.palo;
+        const valor = (numero >= 1 && numero <= 7) ? numero : 0;
+        cartasPorPalo[palo].push(valor);
+    }
+
+    let maxPuntos = 0;
+
+    // TODO: Calcula los puntos de envido para cada palo
+    for (const palo in cartasPorPalo) {
+        const valores = cartasPorPalo[palo];
+        if (valores.length >= 2) {
+            valores.sort((a, b) => b - a);
+            maxPuntos = Math.max(maxPuntos, 20 + valores[0] + valores[1]);
+        } else if (valores.length === 1) {
+            maxPuntos = Math.max(maxPuntos, valores[0]);
+        }
+    }
+
+    return maxPuntos;
+}
+
+
 // Para debug
 window.jugarCarta = jugarCarta;
 
@@ -373,95 +474,6 @@ if (typeof module !== 'undefined') {
         ganadorRonda,
         ganadorPartida,
         cantarEnvido,
+        calcularEnvidoDeMano
     };
 }
-
-
-/**
- * Calcula y compara los puntos de envido de ambos jugadores.
- * Muestra el resultado por consola y con un alert.
- *
- * @returns {number[]} Un array con los puntos de envido: [jugador1, jugador2]
- */
-
- function cantarEnvido() {
-
-     //TODO: Implementar la lógica para cantar envido
-    //validar que ambos tengan 3 cartas
-    // y calcular los puntos de envido para ambos jugadores.
-        // Se asume que las manos de los jugadores están en globalThis.manos[0] y globalThis.manos[1]
-        // y que cada mano es un array de objetos con las propiedades `valor` y `palo`.
-        // Se puede usar la función calcularEnvidoDeMano(mano) para calcular los puntos de envido de cada mano.
-
-
-
-    if (globalThis.manos[0].length !== 3 || globalThis.manos[1].length !== 3) {
-        alert("Ambos jugadores deben tener 3 cartas para cantar envido.");
-        return;
-    }
-
-
-     const puntosJugador1 = calcularEnvidoDeMano(globalThis.manos[0]);
-     const puntosJugador2 = calcularEnvidoDeMano(globalThis.manos[1]);
-
-     console.log(`Jugador 1: ${puntosJugador1} puntos de envido`);
-     console.log(`Jugador 2: ${puntosJugador2} puntos de envido`);
-
-        if (puntosJugador1 > puntosJugador2) {
-            alert( `Jugador 1 canta envido y gana ${puntosJugador1} puntos!`);
-
-        }else if (puntosJugador2 > puntosJugador2) {
-            alert( `Jugador 2 canta envido y gana ${puntosJugador2} puntos!`);
-        }
-
-
-        return  [puntosJugador1, puntosJugador2];
- }
-/**
- * Calcula los puntos de envido de una mano.
- * Las cartas del mismo palo suman sus valores + 20.
- * Las figuras (10, 11, 12) valen 0 puntos para el envido.
- *
- * @param {Object[]} mano - Arreglo de cartas. Cada carta tiene `valor` y `palo`.
- * @param {number} mano[].valor - Número de la carta (1 al 12).
- * @param {string} mano[].palo - Palo de la carta ("Espadas", "Bastos", "Oros", "Copas").
- * @returns {number} Puntos de envido calculados para esa mano.
- */
-function calcularEnvidoDeMano(mano) {
-
-    //TODO: crear un objecto que contenga los valores de las cartas por palo
-    // Recorre la mano y agrupa las cartas por palo
-    // Calcula los puntos de envido para cada palo
-
-
-    const cartasPorPalo = {
-        'Espadas': [],
-        'Bastos': [],
-        'Oros': [],
-        'Copas': []
-    };
-
-
-    for (const carta of mano) {
-        const numero = carta.valor;
-        const palo = carta.palo;
-        const valor = (numero >= 1 && numero <= 7) ? numero : 0;
-        cartasPorPalo[palo].push(valor);
-    }
-
-    let maxPuntos = 0;
-
-    for (const palo in cartasPorPalo) {
-        const valores = cartasPorPalo[palo];
-        if (valores.length >= 2) {
-            valores.sort((a, b) => b - a);
-            maxPuntos = Math.max(maxPuntos, 20 + valores[0] + valores[1]);
-        } else if (valores.length === 1) {
-            maxPuntos = Math.max(maxPuntos, valores[0]);
-        }
-    }
-
-    return maxPuntos;
-}
-
-

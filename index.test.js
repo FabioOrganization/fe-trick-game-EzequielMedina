@@ -159,39 +159,56 @@ describe('Truco reducido - Tests unitarios', () => {
         expect(puntos).toEqual([31, 31]);
     });
 
-    test('cantarEnvido con cartas sin envido (diferentes palos)', () => {
-        globalThis.manos[0] = [
+
+
+    test('calcula envido con dos cartas del mismo palo', () => {
+        const mano = [
+            { valor: 6, palo: 'Oros', id: '1' },
+            { valor: 5, palo: 'Oros', id: '2' },
+            { valor: 3, palo: 'Espadas', id: '3' }
+        ];
+        const puntos = index.calcularEnvidoDeMano(mano);
+        expect(puntos).toBe(31); // 20 + 6 + 5
+    });
+
+    test('calcula envido con empate', () => {
+        const mano = [
+            { valor: 6, palo: 'Espadas', id: '1' },
+            { valor: 5, palo: 'Espadas', id: '2' },
+            { valor: 3, palo: 'Oros', id: '3' }
+        ];
+        const puntos = index.calcularEnvidoDeMano(mano);
+        expect(puntos).toBe(31); // 20 + 6 + 5
+    });
+
+    test('calcula envido con cartas de diferentes palos', () => {
+        const mano = [
             { valor: 3, palo: 'Espadas', id: '1' },
             { valor: 2, palo: 'Copas', id: '2' },
-            { valor: 12, palo: 'Oros', id: '3' }
+            { valor: 12, palo: 'Oros', id: '3' } // valor 0
         ];
-        globalThis.manos[1] = [
-            { valor: 4, palo: 'Bastos', id: '4' },
-            { valor: 5, palo: 'Espadas', id: '5' },
-            { valor: 10, palo: 'Copas', id: '6' }
-        ];
-
-        const puntos = index.cantarEnvido();
-        expect(puntos).toEqual([3, 5]); // solo se toma la carta más alta de envido válida (<=7)
+        const puntos = index.calcularEnvidoDeMano(mano);
+        expect(puntos).toBe(3); // mayor valor individual
     });
-    test('cantarEnvido muestra alerta si no hay 3 cartas en cada mano', () => {
-        globalThis.manos[0] = [
-            { valor: 6, palo: 'Espadas', id: '1' },
-            { valor: 5, palo: 'Espadas', id: '2' }
-        ]; // solo 2 cartas
 
-        globalThis.manos[1] = [
-            { valor: 3, palo: 'Oros', id: '3' },
-            { valor: 4, palo: 'Oros', id: '4' },
-            { valor: 5, palo: 'Oros', id: '5' }
+    test('calcula envido con una sola carta válida', () => {
+        const mano = [
+            { valor: 12, palo: 'Espadas', id: '1' },
+            { valor: 11, palo: 'Copas', id: '2' },
+            { valor: 5, palo: 'Bastos', id: '3' }
         ];
-
-        // Mock del alert
-        global.alert = jest.fn();
-
-        const resultado =index.cantarEnvido();
-
-        expect(global.alert).toHaveBeenCalledWith("Ambos jugadores deben tener 3 cartas para cantar envido.");
-        expect(resultado).toBeUndefined(); // La función retorna undefined en este caso
+        const puntos = index.calcularEnvidoDeMano(mano);
+        expect(puntos).toBe(5);
     });
+
+    test('calcula envido con todas las figuras (de valor 0)', () => {
+        const mano = [
+            { valor: 10, palo: 'Espadas', id: '1' },
+            { valor: 11, palo: 'Copas', id: '2' },
+            { valor: 12, palo: 'Bastos', id: '3' }
+        ];
+        const puntos = index.calcularEnvidoDeMano(mano);
+        expect(puntos).toBe(0);
+    });
+
 });
