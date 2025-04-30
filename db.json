@@ -544,6 +544,52 @@
         }
       ],
       "fecha": "2025-04-29T14:00:37.521Z"
+    },
+    {
+      "id": "5582",
+      "ganador": 0,
+      "jugadas": [
+        {
+          "carta1": {
+            "valor": 7,
+            "palo": "Oros",
+            "id": "ba45"
+          },
+          "carta2": {
+            "valor": 12,
+            "palo": "Bastos",
+            "id": "41b0"
+          },
+          "ganador": 0
+        },
+        {
+          "carta1": {
+            "valor": 3,
+            "palo": "Espadas",
+            "id": "cfb2"
+          },
+          "carta2": {
+            "valor": 1,
+            "palo": "Bastos",
+            "id": "b0da"
+          },
+          "ganador": 1
+        },
+        {
+          "carta1": {
+            "valor": 1,
+            "palo": "Espadas",
+            "id": "4ea1"
+          },
+          "carta2": {
+            "valor": 6,
+            "palo": "Bastos",
+            "id": "9d7d"
+          },
+          "ganador": 0
+        }
+      ],
+      "fecha": "2025-04-30T01:09:18.497Z"
     }
   ]
 }
