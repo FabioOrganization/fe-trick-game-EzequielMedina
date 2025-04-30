@@ -121,3 +121,41 @@ El algoritmo de **Fisher-Yates** es un método eficiente para mezclar un array d
 ### Características:
 - **Complejidad:** O(n), lo que lo hace muy eficiente.
 - **Aleatoriedad:** Cada permutación del array tiene la misma probabilidad de ocurrir.
+
+
+## **Historial de partidas y cartas- Uso de JSON Server**
+
+Para poder guardar y consultar las partidas, usamos **json-server** como backend simulado.  
+Esto te permite trabajar con un archivo `db.json` simulando una base de datos RESTful.
+
+###  **Instalar json-server**
+
+Abre una terminal en la raíz de tu proyecto y ejecuta:
+
+```bash
+  npm install -g json-server
+```
+o (si prefieres solo en este proyecto)
+
+```bash
+  npm install --save-dev json-server
+```
+
+###  **Ejecuta el servidor**
+
+En la terminal, lanza:
+
+```bash 
+  json-server --watch db.json --port 3000
+```
+
+- El backend estará disponible en: http://localhost:3000/cartas y
+  http://localhost:3000/partidas
+
+- Las funciones de guardar y mostrar historial de partidas funcionan usando esta URL.
+
+### 4. **Verifica**
+
+Puedes visitar http://localhost:3000/cartas y 
+http://localhost:3000/partidas
+en tu navegador para ver las partidas guardadas.
