@@ -10,13 +10,13 @@
  */
 let JERARQUIA = [
     [1, 'Espadas'],    // 0
-    [1, 'Bastos'],     // 1
-    [7, 'Espadas'],    // 2
-    [7, 'Oros'],       // 3
+    [1,  'Bastos'],     // 1
+    [7,  'Espadas'],    // 2
+    [7,  'Oros'],       // 3
     [3, null],         // 4 (Tres cualquiera)
     [2, null],         // 5 (Dos cualquiera)
-    [1, 'Oros'],       // 6
-    [1, 'Copas'],      // 7
+    [1,  'Oros'],       // 6
+    [1,  'Copas'],      // 7
     [12, null],        // 8 (Doce cualquiera)
     [11, null],        // 9 (Once cualquiera)
     [10, null],        // 10 (Diez cualquiera)
@@ -350,6 +350,7 @@ function mostrarEstado(mensaje = "") {
 // Botón Nueva partida
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('nuevaPartidaBtn').addEventListener('click',nuevaPartida);
+    document.getElementById('envidoBtn').addEventListener('click',cantarEnvido)
     nuevaPartida();
     getHistorialPartidasFetch();
 });
@@ -371,5 +372,96 @@ if (typeof module !== 'undefined') {
         mostrarEstado,
         ganadorRonda,
         ganadorPartida,
+        cantarEnvido,
     };
 }
+
+
+/**
+ * Calcula y compara los puntos de envido de ambos jugadores.
+ * Muestra el resultado por consola y con un alert.
+ *
+ * @returns {number[]} Un array con los puntos de envido: [jugador1, jugador2]
+ */
+
+ function cantarEnvido() {
+
+     //TODO: Implementar la lógica para cantar envido
+    //validar que ambos tengan 3 cartas
+    // y calcular los puntos de envido para ambos jugadores.
+        // Se asume que las manos de los jugadores están en globalThis.manos[0] y globalThis.manos[1]
+        // y que cada mano es un array de objetos con las propiedades `valor` y `palo`.
+        // Se puede usar la función calcularEnvidoDeMano(mano) para calcular los puntos de envido de cada mano.
+
+
+
+    if (globalThis.manos[0].length !== 3 || globalThis.manos[1].length !== 3) {
+        alert("Ambos jugadores deben tener 3 cartas para cantar envido.");
+        return;
+    }
+
+
+     const puntosJugador1 = calcularEnvidoDeMano(globalThis.manos[0]);
+     const puntosJugador2 = calcularEnvidoDeMano(globalThis.manos[1]);
+
+     console.log(`Jugador 1: ${puntosJugador1} puntos de envido`);
+     console.log(`Jugador 2: ${puntosJugador2} puntos de envido`);
+
+        if (puntosJugador1 > puntosJugador2) {
+            alert( `Jugador 1 canta envido y gana ${puntosJugador1} puntos!`);
+
+        }else if (puntosJugador2 > puntosJugador2) {
+            alert( `Jugador 2 canta envido y gana ${puntosJugador2} puntos!`);
+        }
+
+
+        return  [puntosJugador1, puntosJugador2];
+ }
+/**
+ * Calcula los puntos de envido de una mano.
+ * Las cartas del mismo palo suman sus valores + 20.
+ * Las figuras (10, 11, 12) valen 0 puntos para el envido.
+ *
+ * @param {Object[]} mano - Arreglo de cartas. Cada carta tiene `valor` y `palo`.
+ * @param {number} mano[].valor - Número de la carta (1 al 12).
+ * @param {string} mano[].palo - Palo de la carta ("Espadas", "Bastos", "Oros", "Copas").
+ * @returns {number} Puntos de envido calculados para esa mano.
+ */
+function calcularEnvidoDeMano(mano) {
+
+    //TODO: crear un objecto que contenga los valores de las cartas por palo
+    // Recorre la mano y agrupa las cartas por palo
+    // Calcula los puntos de envido para cada palo
+
+
+    const cartasPorPalo = {
+        'Espadas': [],
+        'Bastos': [],
+        'Oros': [],
+        'Copas': []
+    };
+
+
+    for (const carta of mano) {
+        const numero = carta.valor;
+        const palo = carta.palo;
+        const valor = (numero >= 1 && numero <= 7) ? numero : 0;
+        cartasPorPalo[palo].push(valor);
+    }
+
+    let maxPuntos = 0;
+
+    for (const palo in cartasPorPalo) {
+        const valores = cartasPorPalo[palo];
+        if (valores.length >= 2) {
+            valores.sort((a, b) => b - a);
+            maxPuntos = Math.max(maxPuntos, 20 + valores[0] + valores[1]);
+        } else if (valores.length === 1) {
+            maxPuntos = Math.max(maxPuntos, valores[0]);
+        }
+    }
+
+    return maxPuntos;
+}
+
+

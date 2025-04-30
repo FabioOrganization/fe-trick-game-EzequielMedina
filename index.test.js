@@ -127,4 +127,71 @@ describe('Truco reducido - Tests unitarios', () => {
         expect(index.ganadorPartida()).toBe(null);
     });
 
+    test('cantarEnvido devuelve puntos correctos y detecta ganador', () => {
+        globalThis.manos[0] = [
+            { valor: 6, palo: 'Oros', id: '1' },
+            { valor: 5, palo: 'Oros', id: '2' },
+            { valor: 3, palo: 'Espadas', id: '3' }
+        ];
+        globalThis.manos[1] = [
+            { valor: 4, palo: 'Copas', id: '4' },
+            { valor: 3, palo: 'Copas', id: '5' },
+            { valor: 12, palo: 'Bastos', id: '6' }
+        ];
+
+        const puntos = index.cantarEnvido();
+        expect(puntos).toEqual([31, 27]);
+    });
+
+    test('cantarEnvido empate de envido', () => {
+        globalThis.manos[0] = [
+            { valor: 6, palo: 'Espadas', id: '1' },
+            { valor: 5, palo: 'Espadas', id: '2' },
+            { valor: 3, palo: 'Oros', id: '3' }
+        ];
+        globalThis.manos[1] = [
+            { valor: 6, palo: 'Copas', id: '4' },
+            { valor: 5, palo: 'Copas', id: '5' },
+            { valor: 4, palo: 'Bastos', id: '6' }
+        ];
+
+        const puntos = index.cantarEnvido();
+        expect(puntos).toEqual([31, 31]);
+    });
+
+    test('cantarEnvido con cartas sin envido (diferentes palos)', () => {
+        globalThis.manos[0] = [
+            { valor: 3, palo: 'Espadas', id: '1' },
+            { valor: 2, palo: 'Copas', id: '2' },
+            { valor: 12, palo: 'Oros', id: '3' }
+        ];
+        globalThis.manos[1] = [
+            { valor: 4, palo: 'Bastos', id: '4' },
+            { valor: 5, palo: 'Espadas', id: '5' },
+            { valor: 10, palo: 'Copas', id: '6' }
+        ];
+
+        const puntos = index.cantarEnvido();
+        expect(puntos).toEqual([3, 5]); // solo se toma la carta más alta de envido válida (<=7)
+    });
+    test('cantarEnvido muestra alerta si no hay 3 cartas en cada mano', () => {
+        globalThis.manos[0] = [
+            { valor: 6, palo: 'Espadas', id: '1' },
+            { valor: 5, palo: 'Espadas', id: '2' }
+        ]; // solo 2 cartas
+
+        globalThis.manos[1] = [
+            { valor: 3, palo: 'Oros', id: '3' },
+            { valor: 4, palo: 'Oros', id: '4' },
+            { valor: 5, palo: 'Oros', id: '5' }
+        ];
+
+        // Mock del alert
+        global.alert = jest.fn();
+
+        const resultado =index.cantarEnvido();
+
+        expect(global.alert).toHaveBeenCalledWith("Ambos jugadores deben tener 3 cartas para cantar envido.");
+        expect(resultado).toBeUndefined(); // La función retorna undefined en este caso
+    });
 });

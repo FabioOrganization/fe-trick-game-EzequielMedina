@@ -590,6 +590,118 @@
         }
       ],
       "fecha": "2025-04-30T01:09:18.497Z"
+    },
+    {
+      "id": "4eaf",
+      "ganador": 1,
+      "jugadas": [
+        {
+          "carta1": {
+            "valor": 6,
+            "palo": "Copas",
+            "id": "b45c"
+          },
+          "carta2": {
+            "valor": 1,
+            "palo": "Espadas",
+            "id": "4ea1"
+          },
+          "ganador": 1
+        },
+        {
+          "carta1": {
+            "valor": 11,
+            "palo": "Copas",
+            "id": "61a9"
+          },
+          "carta2": {
+            "valor": 12,
+            "palo": "Espadas",
+            "id": "56dc"
+          },
+          "ganador": 1
+        }
+      ],
+      "fecha": "2025-04-30T01:37:49.359Z"
+    },
+    {
+      "id": "10ab",
+      "ganador": 1,
+      "jugadas": [
+        {
+          "carta1": {
+            "valor": 3,
+            "palo": "Bastos",
+            "id": "ed64"
+          },
+          "carta2": {
+            "valor": 12,
+            "palo": "Bastos",
+            "id": "41b0"
+          },
+          "ganador": 0
+        },
+        {
+          "carta1": {
+            "valor": 5,
+            "palo": "Espadas",
+            "id": "151f"
+          },
+          "carta2": {
+            "valor": 6,
+            "palo": "Espadas",
+            "id": "d552"
+          },
+          "ganador": 1
+        },
+        {
+          "carta1": {
+            "valor": 5,
+            "palo": "Oros",
+            "id": "6e31"
+          },
+          "carta2": {
+            "valor": 11,
+            "palo": "Copas",
+            "id": "61a9"
+          },
+          "ganador": 1
+        }
+      ],
+      "fecha": "2025-04-30T01:52:32.097Z"
+    },
+    {
+      "id": "1178",
+      "ganador": 1,
+      "jugadas": [
+        {
+          "carta1": {
+            "valor": 5,
+            "palo": "Oros",
+            "id": "6e31"
+          },
+          "carta2": {
+            "valor": 12,
+            "palo": "Espadas",
+            "id": "56dc"
+          },
+          "ganador": 1
+        },
+        {
+          "carta1": {
+            "valor": 5,
+            "palo": "Bastos",
+            "id": "4af8"
+          },
+          "carta2": {
+            "valor": 10,
+            "palo": "Espadas",
+            "id": "919d"
+          },
+          "ganador": 1
+        }
+      ],
+      "fecha": "2025-04-30T02:30:41.331Z"
     }
   ]
 }
