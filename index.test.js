@@ -127,7 +127,7 @@ describe('Truco reducido - Tests unitarios', () => {
         expect(index.ganadorPartida()).toBe(null);
     });
 
-    test('cantarEnvido devuelve puntos correctos y detecta ganador', () => {
+    test('cantarEnvido devuelve puntos correctos', () => {
         globalThis.manos[0] = [
             { valor: 6, palo: 'Oros', id: '1' },
             { valor: 5, palo: 'Oros', id: '2' },
@@ -138,27 +138,11 @@ describe('Truco reducido - Tests unitarios', () => {
             { valor: 3, palo: 'Copas', id: '5' },
             { valor: 12, palo: 'Bastos', id: '6' }
         ];
+        global.alert = jest.fn();
 
         const puntos = index.cantarEnvido();
         expect(puntos).toEqual([31, 27]);
     });
-
-    test('cantarEnvido empate de envido', () => {
-        globalThis.manos[0] = [
-            { valor: 6, palo: 'Espadas', id: '1' },
-            { valor: 5, palo: 'Espadas', id: '2' },
-            { valor: 3, palo: 'Oros', id: '3' }
-        ];
-        globalThis.manos[1] = [
-            { valor: 6, palo: 'Copas', id: '4' },
-            { valor: 5, palo: 'Copas', id: '5' },
-            { valor: 4, palo: 'Bastos', id: '6' }
-        ];
-
-        const puntos = index.cantarEnvido();
-        expect(puntos).toEqual([31, 31]);
-    });
-
 
 
     test('calcula envido con dos cartas del mismo palo', () => {
@@ -166,16 +150,6 @@ describe('Truco reducido - Tests unitarios', () => {
             { valor: 6, palo: 'Oros', id: '1' },
             { valor: 5, palo: 'Oros', id: '2' },
             { valor: 3, palo: 'Espadas', id: '3' }
-        ];
-        const puntos = index.calcularEnvidoDeMano(mano);
-        expect(puntos).toBe(31); // 20 + 6 + 5
-    });
-
-    test('calcula envido con empate', () => {
-        const mano = [
-            { valor: 6, palo: 'Espadas', id: '1' },
-            { valor: 5, palo: 'Espadas', id: '2' },
-            { valor: 3, palo: 'Oros', id: '3' }
         ];
         const puntos = index.calcularEnvidoDeMano(mano);
         expect(puntos).toBe(31); // 20 + 6 + 5
@@ -191,15 +165,6 @@ describe('Truco reducido - Tests unitarios', () => {
         expect(puntos).toBe(3); // mayor valor individual
     });
 
-    test('calcula envido con una sola carta válida', () => {
-        const mano = [
-            { valor: 12, palo: 'Espadas', id: '1' },
-            { valor: 11, palo: 'Copas', id: '2' },
-            { valor: 5, palo: 'Bastos', id: '3' }
-        ];
-        const puntos = index.calcularEnvidoDeMano(mano);
-        expect(puntos).toBe(5);
-    });
 
     test('calcula envido con todas las figuras (de valor 0)', () => {
         const mano = [

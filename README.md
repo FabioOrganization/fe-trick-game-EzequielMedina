@@ -63,6 +63,12 @@ El objetivo es jugar cartas estratégicamente para ganar rondas y, eventualmente
 
 9. **`mezclar`**
     - Implementar el algoritmo de Fisher-Yates para mezclar un array.
+    - 
+10. **`cantarEnvido`**
+    - Calcula y comparar los puntos de envido de ambos jugadores..
+    - Muestra el resultado  con un alert.
+11. **`calcularEnvidoDeMano`**
+    - Calcula los puntos de envido de una mano.
 
 ---
 
@@ -77,8 +83,12 @@ El objetivo es jugar cartas estratégicamente para ganar rondas y, eventualmente
 
 3. **Determinación del Ganador de la Ronda**
     - Cuando ambos jugadores han jugado, se determina el ganador de la ronda según la jerarquía de las cartas.
+4. Cantar Envido
+    - evalúa los puntos de envido de cada jugador según las cartas en mano y determina quién gana. Para calcular los puntos, se buscan dos cartas del mismo palo y se suman sus valores (con un tope de 7 por carta; 10, 11 y 12 valen 0) más un adicional de 20 puntos. Si no hay dos cartas del mismo palo, se toma el valor más alto de una sola carta (hasta 7).
 
-4. **Fin de la Partida**
+   - El jugador con más puntos gana el envido y suma 2 puntos a su marcador. En caso de empate, no se otorgan puntos.
+
+5. **Fin de la Partida**
     - La partida termina cuando un jugador gana 2 rondas.
     - Los datos de la partida se guardan en la API y se actualiza el historial.
 
@@ -90,19 +100,23 @@ Cada test tiene un puntaje asignado. Los alumnos deben completar todos los tests
 
 | **Test**                                      | **Puntaje** |
 |-----------------------------------------------|-------------|
-| `obtenerMazoPorFetch llama a /cartas con GET` | 10          |
-| `guardarPartidaFetch llama a /partidas por POST` | 10       |
-| `getHistorialPartidasFetch llama a /partidas con GET` | 10    |
-| `mezclar desordena el array pero no quita/duplica cartas` | 10 |
-| `repartirManos reparte 3 cartas a cada uno y quita del mazo` | 10 |
-| `jerarquiaCarta coloca 1 de espadas < 1 de bastos < 7 de espadas` | 10 |
-| `ganadorRonda detecta el ganador correctamente o empate` | 10   |
-| `quita carta de la mano y la almacena en la ronda`         | 5    |
-| `crea nueva ronda si no hay`                              | 5    |
-| `no crea nueva ronda si ronda incompleta`                 | 5    |
-| `cuando ambos juegan, se determina el ganador y suma puntos` | 5  |
-| `pasa el turno al siguiente`                              | 5    |
-| `ganadorPartida detecta el que gana dos rondas`           | 5    |
+| `obtenerMazoPorFetch llama a /cartas con GET` | 8           |
+| `guardarPartidaFetch llama a /partidas por POST` | 8           |
+| `getHistorialPartidasFetch llama a /partidas con GET` | 10           |
+| `mezclar desordena el array pero no quita/duplica cartas` | 10          |
+| `repartirManos reparte 3 cartas a cada uno y quita del mazo` | 10          |
+| `jerarquiaCarta coloca 1 de espadas < 1 de bastos < 7 de espadas` | 10          |
+| `ganadorRonda detecta el ganador correctamente o empate` | 10          |
+| `quita carta de la mano y la almacena en la ronda`     | 3           |
+| `crea nueva ronda si no hay`                           | 3           |
+| `no crea nueva ronda si ronda incompleta`              | 5           |
+| `cuando ambos juegan, se determina el ganador y suma puntos` | 5           |
+| `pasa el turno al siguiente`                           | 5           |
+| `ganadorPartida detecta el que gana dos rondas`        | 5           |
+| `calcula envido con todas las figuras (de valor 0)`     | 2           |
+| `calcula envido con cartas de diferentes palos`        | 2           |
+| `cantarEnvido devuelve puntos correctos`           | 2           |
+| `calcula envido con dos cartas del mismo palo`         | 2           |
 
 **Total: 100 puntos**
 

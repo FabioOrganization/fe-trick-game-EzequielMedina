@@ -362,9 +362,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     getHistorialPartidasFetch();
 });
 
-
-
-
 /**
  * Calcula y compara los puntos de envido de ambos jugadores.
  * Muestra el resultado  con un alert.
@@ -398,8 +395,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     } else if (puntosJugador2 > puntosJugador1) {
         puntajeRondas[1] += 2;
         alert(`Jugador 2 canta envido y gana con ${puntosJugador2} puntos.`);
-    } else {
-        alert(`Empate en envido. Ambos tienen ${puntosJugador1} puntos.`);
     }
 
     // TODO 6: Verificar si hay un ganador de la partida
