@@ -21,7 +21,7 @@ jobs:
           setup-command: npm install
           command: npm test -- -t "obtenerMazoPorFetch llama a /cartas con GET"
           timeout: 10
-          max-score: 10
+          max-score: 5
       - name: Test_guardarPartidaFetch
         id: Test_guardarPartidaFetch
         uses: classroom-resources/autograding-command-grader@v1
@@ -30,7 +30,7 @@ jobs:
           setup-command: npm install
           command: npm test -- -t "guardarPartidaFetch llama a /partidas por POST y envía datos"
           timeout: 10
-          max-score: 10
+          max-score: 5
       - name: Test_getHistorialPartidasFetch
         id: Test_getHistorialPartidasFetch
         uses: classroom-resources/autograding-command-grader@v1
@@ -39,7 +39,7 @@ jobs:
           setup-command: npm install
           command: npm test -- -t "guardarPartidaFetch llama a /partidas por POST y envía datos"
           timeout: 10
-          max-score: 10
+          max-score: 5
       - name: Test_mezclar
         id: Test_mezclar
         uses: classroom-resources/autograding-command-grader@v1
@@ -75,7 +75,7 @@ jobs:
           setup-command: npm install
           command: npm test -- -t "ganadorRonda detecta el ganador correctamente o empate"
           timeout: 10
-          max-score: 10
+          max-score: 5
       - name: Test_quita_carta
         id: Test_quita_carta
         uses: classroom-resources/autograding-command-grader@v1
@@ -130,6 +130,42 @@ jobs:
           command: npm test -- -t "ganadorPartida detecta el que gana dos rondas"
           timeout: 10
           max-score: 5
+      - name: Test_cantarEnvido
+        id: Test_cantarEnvido
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_cantarEnvido
+          setup-command: npm install
+          command: npm test -- -t "cantarEnvido devuelve puntos correctos"
+          timeout: 10
+          max-score: 5
+      - name: Test_calculaEnvido
+        id: Test_calculaEnvido
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_calculaEnvido
+          setup-command: npm install
+          command: npm test -- -t "calcula envido con dos cartas del mismo palo"
+          timeout: 10
+          max-score: 5
+      - name: Test_calculaEnvidoConDiferentesPalos
+        id: Test_calculaEnvidoConDiferentesPalos
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_calculaEnvidoConDiferentesPalos
+          setup-command: npm install
+          command: npm test -- -t "calcula envido con cartas de diferentes palos"
+          timeout: 10
+          max-score: 5
+      - name: Test_calculaEnvidoConValor0
+        id: Test_calculaEnvidoConValor0
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Test_calculaEnvidoConValor0
+          setup-command: npm install
+          command: npm test -- -t "calcula envido con todas las figuras (de valor 0)"
+          timeout: 10
+          max-score: 5
       - name: Autograding Reporter
         uses: classroom-resources/autograding-grading-reporter@v1
         env:
@@ -146,6 +182,10 @@ jobs:
           TEST_GANADOR_RONDA_RESULTS: "${{steps.Test_ganador_ronda.outputs.result}}"
           TEST_TURNO_RESULTS: "${{steps.Test_turno.outputs.result}}"
           TEST_GANADORPARTIDA_RESULTS: "${{steps.Test_ganadorPartida.outputs.result}}"
+          TEST_CANTARENVIDO_RESULTS: "${{steps.Test_cantarEnvido.outputs.result}}"
+          TEST_CALCULAENVIDO_RESULTS: "${{steps.Test_calculaEnvido.outputs.result}}"
+          TEST_CALCULAINVIDOCONDIFERENTESPALOS_RESULTS: "${{steps.Test_calculaEnvidoConDiferentesPalos.outputs.result}}"
+          TEST_CALCULAINVIDOCONVALOR0_RESULTS: "${{steps.Test_calculaEnvidoConValor0.outputs.result}}"
 
         with:
-          runners: Test_obtenerMazoPorFetch,Test_guardarPartidaFetch,Test_getHistorialPartidasFetch,Test_mezclar,Test_repartirManos,Test_jerarquiaCarta,Test_ganadorRonda,Test_quita_carta,Test_nueva_ronda,Test_ronda_incompleta,Test_ganador_ronda,Test_turno,Test_ganadorPartida
+          runners: Test_obtenerMazoPorFetch,Test_guardarPartidaFetch,Test_getHistorialPartidasFetch,Test_mezclar,Test_repartirManos,Test_jerarquiaCarta,Test_ganadorRonda,Test_quita_carta,Test_nueva_ronda,Test_ronda_incompleta,Test_ganador_ronda,Test_turno,Test_ganadorPartida,Test_cantarEnvido,Test_calculaEnvido,Test_calculaEnvidoConDiferentesPalos,Test_calculaEnvidoConValor0
